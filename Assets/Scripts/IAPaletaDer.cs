@@ -6,7 +6,7 @@ public class IAPaletaDer : MonoBehaviour {
 
     private Rigidbody2D IA;
 
-    public GameObject pelota;
+    public UnityEngine.GameObject pelota;
 
     public float velocidad;
 

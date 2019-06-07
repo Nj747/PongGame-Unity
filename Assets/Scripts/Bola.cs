@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Bola : MonoBehaviour {
 
@@ -8,6 +9,9 @@ public class Bola : MonoBehaviour {
 
     private Rigidbody2D pelota;
     private AudioSource audioSource;
+
+    public Text rightScoreUI;
+    public Text leftScoreUI;
 
     private void Awake()
     {
@@ -19,29 +23,44 @@ public class Bola : MonoBehaviour {
     {
         /* checkear contra que objeto estoy colisionando
         para saber qué hacer en cada caso.*/
-
+        float y = (pelota.transform.position.y - obj.transform.position.y) / obj.collider.bounds.size.y;
         // PaletaIzq o PaletaDer
         if (obj.gameObject.name == "PaletaIzq")
-        {
-            float y = (pelota.transform.position.y - obj.transform.position.y)/obj.collider.bounds.size.y;
+        {   
             pelota.velocity = new Vector2(1, y).normalized * velocidad;
         }
         if (obj.gameObject.name == "PaletaDer")
         {
-            float y = (pelota.transform.position.y - obj.transform.position.y) / obj.collider.bounds.size.y;
             pelota.velocity = new Vector2(-1, y).normalized * velocidad;
         }
         
         // ParedIzq o ParedDer
-        if ((obj.gameObject.name == "ParedIzq") || (obj.gameObject.name == "ParedDer"))
+        if (obj.gameObject.name == "ParedIzq")
         {
-            // Actualizar puntaje del GUI
+            // Actualizar RightScoreUI
             // Play sound effect
+            rightScoreUI.text = IncrementarPuntaje(rightScoreUI.text);
         }
+
+        if (obj.gameObject.name == "ParedDer")
+        {
+            // Actualizar LeftScoreUI
+            // Play sound effect
+            leftScoreUI.text = IncrementarPuntaje(leftScoreUI.text);
+        }
+
         // ParedInf o ParedSup
         if ((obj.gameObject.name == "ParedInf") || (obj.gameObject.name == "ParedSup"))
         {
             // Play sound effect
         }
+    }
+
+    
+    string IncrementarPuntaje(string puntaje)
+    {
+        int p = int.Parse(puntaje);
+        p++;
+        return p.ToString();
     }
 }
